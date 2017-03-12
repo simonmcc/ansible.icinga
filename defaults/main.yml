@@ -1,2 +1,5 @@
 ---
-# defaults file for icinga2
+adminusers: "icingaadmin"
+users:
+  icingaadmin:
+    password: icinga

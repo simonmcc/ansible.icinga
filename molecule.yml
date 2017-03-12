@@ -1,0 +1,22 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+docker:
+  containers:
+    - name: ansible.icinga
+      image: ubuntu
+      image_version: latest
+      ansible_groups:
+        - group1
+verifier:
+  name: testinfra
+dependency:
+  name: galaxy
+  enabled: True
+
+# templates/external_groups.cfg.j2 uses do to append items to an array
+ansible:
+  ansiblecfg_defaults:
+    jinja2_extensions: jinja2.ext.do
