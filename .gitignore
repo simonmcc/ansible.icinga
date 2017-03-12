@@ -1,1 +1,4 @@
 .molecule/
+*.pyc
+__pycache__/
+.cache/
