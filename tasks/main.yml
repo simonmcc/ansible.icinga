@@ -5,9 +5,11 @@
   - name: install python-passlib (dependency of htpasswd python module)
     apt: name=python-passlib
 
+  - debug: var=users
+
   - name: update /etc/icinga/htpasswd.users file
     htpasswd: path=/etc/icinga/htpasswd.users name={{ item.key }} password={{ item.value.password }}  owner=root group=www-data mode=0640
-    with_dict: users
+    with_dict: "{{ users }}"
 
   # - include: inventory_definitions.yml
   - include: external_definitions.yml
@@ -40,12 +42,12 @@
   # dpkg-statoverride --update --add nagios nagios 751 /var/lib/icinga
   # /etc/init.d/icinga start
   - name: Ensure Apache can write to the command file (/var/lib/icinga/rw/icinga.cmd)
-    file: name=/var/lib/icinga owner=nagios group=nagios mode=751
+    file: name=/var/lib/icinga owner=nagios group=nagios mode=0751
     notify:
       - restart icinga
 
   - name: Ensure www-data has access to the external commands pipe (/var/lib/icinga/rw)
-    file: name=/var/lib/icinga/rw owner=nagios group=www-data mode=2710
+    file: name=/var/lib/icinga/rw owner=nagios group=www-data mode='02710'
     notify:
       - restart icinga
 
